@@ -34,10 +34,10 @@ class TeamController {
     return response.status(200).json(teams)
   }
   async update(request: Request, response: Response){
-    return response.status(200).json()
+    return response.status(200).json({message: "To implement"})
   }
   async delete(request: Request, response: Response){
-    return response.status(200).json()
+    return response.status(200).json({message: "To implement"})
   }
 }
 
