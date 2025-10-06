@@ -7,7 +7,7 @@ import {prisma} from "@/database/prisma"
 import { AppError } from "@/utils/AppError";
 import { authConfig } from "@/configs/auth";
 
-class SessionsController {
+class SessionController {
   async create(request: Request, response: Response){
     const bodySchema = z.object({
         email: z.string().email(),
@@ -45,4 +45,4 @@ class SessionsController {
   }
 }
 
-export {SessionsController}
+export {SessionController}
