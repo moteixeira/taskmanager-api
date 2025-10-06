@@ -38,12 +38,14 @@ class UserController {
         name: true,
         email: true,
         role: true,
-        team_member: {
-          select: {
-            userId: true,
-            teamId: true,
-            createdAt: true,
-            updatedAt: true
+        team_member:{
+          select:{
+            team: {
+              select:{
+                id: true,
+                name: true
+              }
+            }
           }
         },
         tasks: true,

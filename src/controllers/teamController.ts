@@ -27,6 +27,17 @@ class TeamController {
         id: true,
         name: true,
         description: true,
+        team_member:{
+          select:{
+            user: {
+              select:{
+                id: true,
+                name: true
+              }
+            }
+          }
+        },
+        tasks: true,
         createdAt: true,
         updatedAt: true
       }
