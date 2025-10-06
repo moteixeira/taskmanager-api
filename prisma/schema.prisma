@@ -13,44 +13,43 @@ enum UserRole {
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  name String
-  email String
+  id       Int    @id @default(autoincrement())
+  name     String
+  email    String
   password String
 
   role UserRole @default(member)
 
-  team_member Team_Member[]
-  tasks Task[]
-  changes TaskHistory[]
+  team_member TeamMember[]
+  tasks       Task[]
+  changes     TaskHistory[]
 
-
-  createdAt DateTime @default(now()) @map("created_at")
+  createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at")
 
   @@map("users")
 }
 
 model Team {
-  id Int @id @default(autoincrement())
-  name String
+  id          Int    @id @default(autoincrement())
+  name        String
   description String
 
-  team_member Team_Member[]
-  tasks Task[]
+  team_member TeamMember[]
+  tasks       Task[]
 
-  createdAt DateTime @default(now()) @map("created_at")
+  createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at")
 
   @@map("teams")
 }
 
-model Team_Member {
-  id Int @id @default(autoincrement())
+model TeamMember {
+  id     Int @id @default(autoincrement())
   userId Int @map("user_id")
   teamId Int @map("team_id")
 
-  createdAt DateTime @default(now()) @map("created_at")
+  createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at")
 
   user User @relation(fields: [userId], references: [id])
@@ -71,9 +70,9 @@ enum Priority {
   low
 }
 
-model Task{
-  id String @id @default(uuid())
-  title String
+model Task {
+  id          String @id @default(uuid())
+  title       String
   description String
 
   status Status @default(pending)
@@ -81,11 +80,11 @@ model Task{
   priority Priority @default(low)
 
   assignedTo Int @map("assigned_to")
-  teamId Int @map("team_id")
-  
+  teamId     Int @map("team_id")
+
   history TaskHistory[]
 
-  createdAt DateTime @default(now()) @map("created_at")
+  createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at")
 
   user User @relation(fields: [assignedTo], references: [id])
@@ -97,8 +96,8 @@ model Task{
 model TaskHistory {
   id String @id @default(uuid())
 
-  taskId String @map("task_id")
-  changedBy Int @map("changed_by")
+  taskId    String @map("task_id")
+  changedBy Int    @map("changed_by")
   oldStatus Status @map("old_status")
   newStatus Status @map("new_status")
 

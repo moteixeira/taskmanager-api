@@ -9,7 +9,7 @@ const teamController = new TeamController()
 
 teamRoutes.get("/", teamController.read)
 teamRoutes.post("/",ensureAuthenticated , verifyUserAuthorization(['admin']),teamController.create)
-teamRoutes.patch("/", teamController.update)
-teamRoutes.delete("/", teamController.delete)
+teamRoutes.patch("/:team_id",ensureAuthenticated , verifyUserAuthorization(['admin']), teamController.update)
+teamRoutes.delete("/:team_id", ensureAuthenticated , verifyUserAuthorization(['admin']), teamController.delete)
 
 export { teamRoutes }
