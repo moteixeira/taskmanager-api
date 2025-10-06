@@ -17,19 +17,19 @@ class TeamMemberController {
     const {team_id} = paramsSchema.parse(request.params)
     const {user_id} = bodySchema.parse(request.body)
 
-    const team = await prisma.team.findUnique({
+    const teamExists = await prisma.team.findUnique({
       where : {id: team_id}
     })
     
-    if(!team){
+    if(!teamExists){
       throw new AppError("Team not found", 404)
     }
     
-    const user = await prisma.user.findUnique({
+    const userExists = await prisma.user.findUnique({
       where: {id: user_id}
     })
 
-    if(!user){
+    if(!userExists){
       throw new AppError("User not Found", 404)
     }
     
