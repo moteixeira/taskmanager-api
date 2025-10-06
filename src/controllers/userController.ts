@@ -34,10 +34,18 @@ class UserController {
   async read(request: Request, response: Response){
     const users = await prisma.user.findMany({
       select: {
+        id: true,
         name: true,
         email: true,
         role: true,
-        team_member: true,
+        team_member: {
+          select: {
+            userId: true,
+            teamId: true,
+            createdAt: true,
+            updatedAt: true
+          }
+        },
         tasks: true,
         changes: true,
         createdAt: true,
