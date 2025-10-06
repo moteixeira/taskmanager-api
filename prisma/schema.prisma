@@ -6,3 +6,106 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum UserRole {
+  admin
+  member
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  name String
+  email String
+  password String
+
+  role UserRole @default(member)
+
+  team_member Team_Member[]
+  tasks Task[]
+  changes TaskHistory[]
+
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+model Team {
+  id Int @id @default(autoincrement())
+  name String
+  description String
+
+  team_member Team_Member[]
+  tasks Task[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+
+  @@map("teams")
+}
+
+model Team_Member {
+  id Int @id @default(autoincrement())
+  userId Int @map("user_id")
+  teamId Int @map("team_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id])
+  team Team @relation(fields: [teamId], references: [id])
+
+  @@map("team_members")
+}
+
+enum Status {
+  pending
+  in_progress
+  completed
+}
+
+enum Priority {
+  high
+  medium
+  low
+}
+
+model Task{
+  id String @id @default(uuid())
+  title String
+  description String
+
+  status Status @default(pending)
+
+  priority Priority @default(low)
+
+  assignedTo Int @map("assigned_to")
+  teamId Int @map("team_id")
+  
+  history TaskHistory[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+
+  user User @relation(fields: [assignedTo], references: [id])
+  team Team @relation(fields: [teamId], references: [id])
+
+  @@map("tasks")
+}
+
+model TaskHistory {
+  id String @id @default(uuid())
+
+  taskId String @map("task_id")
+  changedBy Int @map("changed_by")
+  oldStatus Status @map("old_status")
+  newStatus Status @map("new_status")
+
+  changedAt DateTime? @updatedAt @map("changed_at")
+
+  user User @relation(fields: [changedBy], references: [id])
+  task Task @relation(fields: [taskId], references: [id])
+
+  @@map("task_history")
+}
