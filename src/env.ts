@@ -4,7 +4,8 @@ const envSchema = z.object({
   DATABASE_URL: z.string().url(),
   JWT_SECRET: z.string(),
   NODE_ENV: z.string(),
-  PORT: z.coerce.number().default(3333)
+  PORT: z.coerce.number().default(3333),
+  SALT: z.coerce.number()
 })
 
 export const env = envSchema.parse(process.env)

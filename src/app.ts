@@ -9,10 +9,13 @@ const app = express()
 
 app.use(express.json())
 
-//Import de 
+
+//Import de rotas
 app.use(routes)
 
 //Tratamento de exceçoes
 app.use(errorHandling)
+
+
 
 export {app}
